@@ -3,5 +3,5 @@ Calculating the position of HAVELSAT satellite in terms of latitude and longitud
 
 Requirements: Python 2.7
   
-  
-  Python packages used: NUMPY,URLLIB,DATETIME,PYTZ
+
+Python packages used: numpy ,urllib ,datetime ,pytz
