@@ -22,12 +22,9 @@ c23 = np.cross(R2,R3)
 c31 = np.cross(R3,R1)
 
 ##Calculate D and N vectors
-
+##Orthogonal to the plane traced by the position vectors
 N = r1*c23 + r2*c31 + r3*c12
 D = c12 + c23 + c31
-
-## Check for sanity
-
 
 ## Calcualte P, from pD = N
 
@@ -86,8 +83,6 @@ e = np.linalg.norm(E);
 ## Calculate orbital major axis
 
 a = p / (1-(e*e));
-
-result =  [ e, Omega, inclination, omega, nu, a]
 
 print "Eccentricity:",e
 print "Inclination:",inclination
