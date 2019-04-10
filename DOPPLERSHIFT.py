@@ -42,23 +42,23 @@ def parameter3(xdata,ydata):#Returns distance of satellite at time stamp t=5
 
 #THE FOLLOWING DATA IS TAKEN RANDOMLY DUE TO UNAVALABILITY OF ACTUAL DATA
 #Data with respect to station 1 after calculation from doppler shift data  
-x1=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]#Time stamps
-y1=[15,20,14,18,16,12,17,15,13,19,15,14,17,12,10,16,12,10,13,15] #SPEED
+x1=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]#Time stamps
+y1=[6831.364579043655, 6740.850822038237, 6620.243605101301, 6458.014493658278, 6237.037598559635, 5931.685507415964, 5503.903984015603, 4899.39563649145, 4048.9044134429896, 2887.693965597149, 1409.8162620138917, 263.4108033539343, 1897.751744773451, 3283.5217264849252, 4343.574761925622, 5110.007716248858, 5652.925115176098, 6037.812014780742, 6313.659282761534, 6514.206671309588] #SPEED
 #Data with respect to station 2 after calculation from doppler shift data
-x2=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
-y2=[25,24,26,23,28,29,27,21,24,28,19,20,28,23,26,24,25,24,28,30]#SPEED
+x2=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]
+y2=[7096.59754103314, 7037.794946110064, 6952.833025271406, 6828.0412760003355, 6639.7893058758145, 6345.4505647112865, 5865.562659033127, 5052.9027833895325, 3669.098407796368, 1512.062235767461, 1118.2141634749757, 3387.7121166054285, 4883.555054240137, 5766.906774004402, 6286.4391928767045, 6603.0417954405575, 6804.302893539096, 6937.076566288755, 7027.178082531641, 7089.441901351016]#SPEED
 #data with respect to station 3 after calculation from doppler shift data
-x3=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
-y3=[20,24,29,35,26,33,36,35,34,37,38,39,32,31,25,24,26,25,28,29]#SPEED
+x3=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]
+y3=[6989.497374791167, 6893.071521201201, 6752.671857144409, 6542.838112750756, 6218.592359417079, 5698.778673394734, 4840.810945027412, 3434.1562543851946, 1339.449830451687, 1136.0813694594797, 3283.7254356193903, 4746.524662821048, 5642.129367082341, 6184.013614246464, 6521.036861560033, 6738.493986017758, 6883.641085744482, 6983.158194181431, 7052.646238007066, 7101.582873933399]#SPEED
   
 p1,p2,p3=[parameter1(x1,y1),parameter1(x2,y2),parameter1(x3,y3)]
 q1,q2,q3=[parameter2(x1,y1),parameter2(x2,y2),parameter2(x3,y3)]
 r1,r2,r3=[parameter3(x1,y1),parameter3(x2,y2),parameter3(x3,y3)]
 
 #Position vector of any three stations
-st1 = np.array([ -294.32, 4265.1, 5986.7])#Station 1
-st2 = np.array([ -1365.5, 3637.6, 6346.7])#Station 2
-st3 = np.array([ -2940.3, 2473.7, 6555.8])#Station 3
+st1 = np.array([ 454177.3804063904, 4321209.12405049, 4659454.433015735])#Station 1
+st2 = np.array([ 558000.6604074897, 3970381.0041338456, 4951196.920442361])#Station 2
+st3 = np.array([ 665795.5068229569, 3775913.9534281944, 5088106.834511303])#Station 3
 
 
 #Position vector calculation
@@ -75,7 +75,9 @@ def position(X1,X2,X3,rho1,rho2,rho3):
     H=X3.dot(e)
     G=X3.dot(F)-f3
     fsquare=F.dot(F)
-    J=H + math.sqrt(H**2 + 2*G + fsquare)#Here -fsquare instead of +fsquare should be taken. But due to inconsistency of the            #randomly      taken data. If actual data from a satellite revolving in elliptical orbit is taken, the inconsistency won't occur. 
+    k=H**2 + 3*G - fsquare
+    print(k)
+    J=H + math.sqrt(abs(H**2 + 3*G +fsquare))#Here -fsquare instead of +fsquare should be taken. But due to inconsistency of the            #randomly      taken data. If actual data from a satellite revolving in elliptical orbit is taken, the inconsistency won't occur. 
     r=F+J*e
     return r
 
@@ -85,9 +87,10 @@ R1=(position(st1,st2,st3,p1,p2,p3))
 R2=(position(st1,st2,st3,q1,q2,q3))
 R3=(position(st1,st2,st3,r1,r2,r3))
 #now Orbital parameters can be calculated using Gibb's method  
-#Constants
+#Constants:
 mu = 398600.4418;
 pi = 3.141592653
+
 #Implementation of Gibb's method   
 r1 = np.linalg.norm(R1)
 r2 = np.linalg.norm(R2)
@@ -166,7 +169,6 @@ print("Argument of Perigee:",omega)
 print("Mean Anomaly:",nu)
 print("Semi major axis:",a)
 print("Right ascension of ascending node:",Omega)
-
 
 
 
